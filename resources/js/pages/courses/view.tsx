@@ -6,12 +6,23 @@ import DefaultWrapper from "@/components/common/wrapper";
 import Authenticated from "@/layouts/authenticated-layout";
 
 import { CourseSubscriptionsTable } from "@/components/courses/subscriptions/subscriptions-table";
-import { ViewCoursePageProps } from "@/types";
+import { Course, FullLecture, FullSubscription, Teacher } from "@/types";
 import { DollarSign, Edit } from "lucide-react";
 import { Head, usePage } from "@inertiajs/react";
 import { LecturesList } from "@/components/courses/lectures/lectures-list";
 import { PageTitle } from "@/components/common/PageTitle";
 import { LinkBtn } from "@/components/common/link-btn";
+
+type ViewCoursePageProps<
+  T extends Record<string, unknown> = Record<string, unknown>
+> = T & {
+  auth: {
+    teacher: Teacher;
+  };
+  course: Course;
+  lectures: FullLecture[];
+  subscriptions: FullSubscription[];
+};
 
 export default function ViewCoursePage() {
   const { course, lectures, subscriptions } =

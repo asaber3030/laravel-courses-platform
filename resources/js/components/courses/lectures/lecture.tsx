@@ -41,6 +41,7 @@ export function SingleLecture({ lecture }: Props) {
                   key={`single-item-${item.id}`}
                   item={item}
                   index={idx}
+                  courseId={lecture.course_id}
                 />
               ))}
             </section>

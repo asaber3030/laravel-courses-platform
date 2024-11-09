@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/table";
 
 import moment from "moment";
-import { LinkBtn } from "@/components/common/link-btn";
 import { ViewSubscriptionModal } from "./view-subscription-modal";
 
 type Props = {
