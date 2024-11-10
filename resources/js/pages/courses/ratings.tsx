@@ -13,12 +13,6 @@ import { Edit } from "lucide-react";
 export default function CourseRatings() {
   const { ratings, course } = usePage<CourseRatingsPageProps>().props;
 
-  const pageTitle = (
-    <span>
-      التقييمات - <bdi>{course.title}</bdi>
-    </span>
-  );
-
   return (
     <Authenticated>
       <Head title={"تقييمات الكورس - " + course.title} />

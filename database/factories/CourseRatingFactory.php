@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Course;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,9 +19,9 @@ class CourseRatingFactory extends Factory
     public function definition(): array
     {
         return [
-            'course_id' => $this->faker->randomNumber(1000),
-            'user_id' => $this->faker->randomNumber(1000),
-            'rating' => $this->faker->randomNumber(5),
+            'course_id' => $this->faker->numberBetween(1, Course::count()),
+            'user_id' => $this->faker->numberBetween(1, User::count()),
+            'rating' => $this->faker->numberBetween(1, 5),
         ];
     }
 }

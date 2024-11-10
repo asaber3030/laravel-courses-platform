@@ -14,13 +14,14 @@ class CourseController extends Controller
 {
 	public function index(Request $request)
 	{
-		$search_param = $request->query('search');
-		$user = auth('teacher')->user();
-		$courses = Course::where('teacher_id', $user->getAuthIdentifier())
-			->where('title', 'like', "%{$search_param}%")
-			->orWhere('description', 'like', "%{$search_param}%")
+
+		$courses = Course::where([
+			['teacher_id', auth('teacher')->id()],
+			['title', 'LIKE', '%' . $request->query('search') . '%']
+		])
 			->orderBy('id', 'desc')
 			->withCount('ratings')
+			->withCount('subscriptions')
 			->paginate();
 		return inertia('courses/list', [
 			'courses' => $courses
@@ -30,17 +31,33 @@ class CourseController extends Controller
 	public function view(Course $course)
 	{
 		return inertia('courses/view', [
-			'course' => $course,
+			'course' => $course->withCount('subscriptions')->where('id', $course->id)->first(),
 			'lectures' => CourseLecture::where('course_id', $course->id)->orderBy('order', 'desc')->with('items')->get(),
 			'subscriptions' => CourseSubscription::where('course_id', $course->id)->with('user', 'course')->take(10)->get()
 		]);
 	}
 
-	public function view_subscriptions(Course $course)
+	public function view_subscriptions(Request $request, Course $course)
 	{
+		$search = $request->query('search');
+		$subscriptions = CourseSubscription::where(
+			'course_id',
+			$course->id
+		)
+			->where(function ($query) use ($search) {
+				$query->when($search, function ($q) use ($search) {
+					$q->where('id', $search)
+						->orWhereHas('user', function ($q) use ($search) {
+							$q->where('name', 'like', '%' . $search . '%')
+								->orWhere('email', 'like', '%' . $search . '%');
+						});
+				});
+			})
+			->with(['user', 'course'])
+			->paginate();
 		return inertia('courses/subscriptions', [
 			'course' => $course,
-			'subscriptions' => CourseSubscription::where('course_id', $course->id)->with('user', 'course')->paginate()
+			'subscriptions' => $subscriptions
 		]);
 	}
 
@@ -263,7 +280,6 @@ class CourseController extends Controller
 		]);
 	}
 
-
 	public function update_item_action(Request $request, Course $course, CourseLecture $lecture, LectureItem $item)
 	{
 		$request->validate([
@@ -304,5 +320,14 @@ class CourseController extends Controller
 		$item->delete();
 		session()->flash('message', 'تم حذف العنصر بنجاح');
 		return to_route('courses.lectures.view', ['course' => $course->id, 'lecture' => $lecture->id]);
+	}
+
+	public function change_subscription_status(Request $request, Course $course, CourseSubscription $subscription)
+	{
+		$new_status = $subscription->status === 'active' ? 'inactive' : 'active';
+		CourseSubscription::where('id', $subscription->id)->update([
+			'status' => $new_status
+		]);
+		session()->flash('message', $new_status === 'active' ? 'تم اعادة تفعيل الكورس للمستخدم' : 'تم وقف الكورس للمستخدم');
 	}
 }

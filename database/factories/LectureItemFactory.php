@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\CourseLecture;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,13 +18,13 @@ class LectureItemFactory extends Factory
     public function definition(): array
     {
         return [
-            'lecture_id' => $this->faker->randomNumber(1000),
+            'lecture_id' => $this->faker->numberBetween(1, CourseLecture::count()),
             'title' => $this->faker->text(50),
             'file' => $this->faker->imageUrl(),
             'file_type' => $this->faker->fileExtension(),
-            'file_size' => $this->faker->randomNumber(1000),
-            'video_duration' => $this->faker->randomNumber(1000),
-            'order' => $this->faker->randomNumber(1000),
+            'file_size' => $this->faker->numberBetween(1, 200),
+            'video_duration' => $this->faker->numberBetween(1, 200),
+            'order' => $this->faker->numberBetween(1, 200),
             'is_active' => $this->faker->boolean(),
         ];
     }

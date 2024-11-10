@@ -8,14 +8,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "../ui/separator";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import { Button } from "../ui/button";
 import { Cog, Eye, MoreHorizontal, Trash } from "lucide-react";
 
-import moment from "moment";
-
 import CourseActionsDropdown from "./course-actions-dropdown";
 import DeleteCourseModal from "./delete-course-modal";
+import { useTeacher } from "@/hooks/useTeacher";
 
 export default function CourseCard({ course }: { course: Course }) {
   return (
@@ -33,21 +32,31 @@ export default function CourseCard({ course }: { course: Course }) {
       <CardContent className="p-3 pt-0">
         <div className="flex justify-between items-center">
           <p className="text-green-600 text-xl font-bold">{course.price} ج.م</p>
-          <p className="text-gray-500">({course.ratings_count}) التقييمات</p>
+          <Link
+            href={route("courses.ratings.view", course.id)}
+            className="text-gray-500 hover:underline hover:text-blue-600"
+          >
+            <strong>{course.ratings_count}</strong> من التقييمات
+          </Link>
         </div>
         <Separator className="my-2" />
         <div className="flex flex-col gap-2">
           <p className="text-gray-600 flex justify-between">
-            اخر تعديل
-            <span>
-              {course.updated_at ? moment(course.updated_at).fromNow() : "N/A"}
-            </span>
+            عدد الاشتراكات
+            <Link
+              href={route("courses.subscriptions.view", course.id)}
+              className="hover:underline hover:text-blue-600"
+            >
+              <bdi>{course?.subscriptions_count ?? "ddd"} مشترك</bdi>
+            </Link>
           </p>
           <p className="text-gray-600 flex justify-between">
-            تم الانشاء في
-            <span>
-              {course.created_at ? moment(course.created_at).fromNow() : "N/A"}
-            </span>
+            اخر تعديل
+            <bdi>{course.updated_at.toString()}</bdi>
+          </p>
+          <p className="text-gray-600 flex justify-between">
+            تم الانشاء
+            <bdi>{course.created_at.toString()}</bdi>
           </p>
         </div>
       </CardContent>

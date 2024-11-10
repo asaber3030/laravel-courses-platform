@@ -29,6 +29,15 @@ export const AppNavbar = () => {
                 الكورسات
               </NavLink>
             </li>
+
+            <li>
+              <NavLink
+                href={route("subscriptions")}
+                active={route().current("subscriptions")}
+              >
+                الاشتراكات
+              </NavLink>
+            </li>
           </ul>
         </div>
 

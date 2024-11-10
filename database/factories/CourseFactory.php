@@ -2,16 +2,14 @@
 
 namespace Database\Factories;
 
+use App\Models\Teacher;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Course;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Course>
  */
 class CourseFactory extends Factory
 {
-
-    protected $model = Course::class;
     /**
      * Define the model's default state.
      *
@@ -21,10 +19,10 @@ class CourseFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence,
-            'description' => $this->faker->paragraph,
-            'price' => $this->faker->randomNumber(1000),
+            'description' => $this->faker->paragraph(3),
+            'price' => fake()->numberBetween(1, 1000),
             'image' => $this->faker->imageUrl(),
-            'teacher_id' => 1,
+            'teacher_id' => fake()->numberBetween(1, Teacher::count()),
         ];
     }
 }

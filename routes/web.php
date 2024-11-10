@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -15,14 +16,16 @@ Route::get('/', function () {
   ]);
 });
 
-Route::get('/dashboard', function () {
-  return Inertia::render('dashboard');
-})->name('dashboard');
 
 Route::middleware('teacher.auth')->group(function () {
+
+  Route::get('/dashboard', [HomeController::class, 'dashboard_index'])->name('dashboard');
+
   Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
   Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
   Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+  Route::get('/subscriptions', [HomeController::class, 'subscriptions'])->name('subscriptions');
 
   // Courses Routes
   Route::controller(CourseController::class)->as('courses.')->prefix('courses')->group(function () {
@@ -41,6 +44,7 @@ Route::middleware('teacher.auth')->group(function () {
     Route::get('/{course}/ratings', 'ratings_view')->name('ratings.view');
 
     Route::get('/{course}/subscriptions', 'view_subscriptions')->name('subscriptions.view');
+    Route::post('/{course}/subscriptions/{subscription}/trigger-status', 'change_subscription_status')->name('subscriptions.trigger');
     Route::get('/{course}/subscriptions/create', 'create_subscription_view')->name('subscriptions.create.view');
     Route::post('/{course}/subscriptions/create', 'create_subscription_action')->name('subscriptions.create.action');
 

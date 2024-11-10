@@ -10,6 +10,7 @@ import { Button } from "../ui/button";
 import { useTeacher } from "@/hooks/useTeacher";
 import { router } from "@inertiajs/react";
 import { cn } from "@/lib/utils";
+import { User } from "lucide-react";
 
 export const UserDropdown = () => {
   const teacher = useTeacher();
@@ -17,9 +18,16 @@ export const UserDropdown = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button>{teacher.name}</Button>
+        <Button variant="outline" icon={User} className="flex-row-reverse">
+          {teacher.email}
+        </Button>
       </DropdownMenuTrigger>
+
       <DropdownMenuContent>
+        <DropdownMenuLabel className="text-left">
+          {teacher.name}
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => router.get(route("profile.edit"))}
           className={cn(

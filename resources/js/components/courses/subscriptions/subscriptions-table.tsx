@@ -10,8 +10,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import moment from "moment";
 import { ViewSubscriptionModal } from "./view-subscription-modal";
+import { TriggerSubscriptionStatusModal } from "./trigger-status-modal";
+import { Link } from "@inertiajs/react";
 
 type Props = {
   subscriptions: FullSubscription[];
@@ -37,12 +38,19 @@ export const CourseSubscriptionsTable = ({ subscriptions }: Props) => {
         {subscriptions.map((subscription) => (
           <TableRow key={`sub-${subscription.id}`}>
             <TableCell className="font-medium" key={subscription.id}>
-              SUB{subscription.id}
+              {subscription.id}
             </TableCell>
             <TableCell>
               {subscription.user.name} # {subscription.user.id}
             </TableCell>
-            <TableCell>{subscription.course.title}</TableCell>
+            <TableCell>
+              <Link
+                href={route("courses.view", subscription.course_id)}
+                className="hover:underline hover:text-blue-600"
+              >
+                {subscription.course.title}
+              </Link>
+            </TableCell>
             <TableCell>
               <Badge
                 className="capitalize"
@@ -54,10 +62,11 @@ export const CourseSubscriptionsTable = ({ subscriptions }: Props) => {
               </Badge>
             </TableCell>
             <TableCell>
-              <bdi>{moment(subscription.created_at).fromNow()}</bdi>
+              <bdi>{subscription.created_at.toString()}</bdi>
             </TableCell>
-            <TableCell>
+            <TableCell className="flex gap-2">
               <ViewSubscriptionModal subscription={subscription} />
+              <TriggerSubscriptionStatusModal subscription={subscription} />
             </TableCell>
           </TableRow>
         ))}

@@ -23,6 +23,8 @@ const buttonVariants = cva(
           "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
         outlineDes:
           "border border-input bg-background shadow-sm hover:bg-accent hover:text-red-600 text-red-600",
+        outlineWar:
+          "border border-input bg-background shadow-sm hover:bg-accent hover:text-orange-600 text-orange-600",
         secondary:
           "border shadow-md bg-gray-100 text-secondary-foreground shadow-sm hover:bg-gray-200/80",
         ghost: "hover:bg-accent hover:text-gray-600",

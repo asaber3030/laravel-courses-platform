@@ -19,6 +19,7 @@ export type Course = Timestamps & {
   image: string;
   price: number;
   ratings_count: number;
+  subscriptions_count: number;
 };
 
 export type CourseLecture = Timestamps & {
@@ -106,6 +107,27 @@ export type PageProps<
   auth: {
     teacher: Teacher;
   };
+};
+
+export type DashboardPageProps<
+  T extends Record<string, unknown> = Record<string, unknown>
+> = T & {
+  auth: {
+    teacher: Teacher;
+  };
+  total_courses: number;
+  total_subscriptions: number;
+  total_lectures: number;
+  total_file_size: number;
+};
+
+export type SubscriptionsPageProps<
+  T extends Record<string, unknown> = Record<string, unknown>
+> = T & {
+  auth: {
+    teacher: Teacher;
+  };
+  subscriptions: PaginationData<FullSubscription[]>;
 };
 
 export type CoursesPageProps<

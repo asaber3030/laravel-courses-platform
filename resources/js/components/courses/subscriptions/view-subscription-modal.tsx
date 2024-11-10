@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 
-import moment from "moment";
 import { LinkBtn } from "@/components/common/link-btn";
 
 type Props = {
@@ -50,7 +49,7 @@ export const ViewSubscriptionModal = ({ subscription }: Props) => {
               <span className="text-sm">
                 <bdi>تم الاشتراك:</bdi>{" "}
                 <bdi className="font-bold">
-                  {moment(subscription.created_at).fromNow()}
+                  {subscription.created_at.toString()}
                 </bdi>
               </span>
             </div>
@@ -67,8 +66,7 @@ export const ViewSubscriptionModal = ({ subscription }: Props) => {
           <div className="flex items-center gap-2">
             <Hash className="size-4" />
             <span className="text-sm">
-              رقم الاشتراك:{" "}
-              <span className="font-bold">SUB{subscription.id}</span>
+              رقم الاشتراك: <span className="font-bold">{subscription.id}</span>
             </span>
           </div>
         </div>

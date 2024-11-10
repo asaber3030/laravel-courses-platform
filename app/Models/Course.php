@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
@@ -10,7 +11,7 @@ use Illuminate\Support\Carbon;
 class Course extends Model
 {
 
-  use SoftDeletes;
+  use SoftDeletes, HasFactory;
 
   protected $table = 'courses';
   protected $fillable = ['title', 'description', 'price', 'image', 'teacher_id'];
@@ -23,6 +24,11 @@ class Course extends Model
   public function lectures()
   {
     return $this->hasMany(CourseLecture::class, 'course_id', 'id');
+  }
+
+  public function subscriptions()
+  {
+    return $this->hasMany(CourseSubscription::class, 'course_id', 'id');
   }
 
   public function createdAt(): Attribute
