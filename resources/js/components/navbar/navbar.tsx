@@ -29,15 +29,6 @@ export const AppNavbar = () => {
                 الكورسات
               </NavLink>
             </li>
-
-            <li>
-              <NavLink
-                href={route("courses.list")}
-                active={route().current("courses.list")}
-              >
-                test
-              </NavLink>
-            </li>
           </ul>
         </div>
 
