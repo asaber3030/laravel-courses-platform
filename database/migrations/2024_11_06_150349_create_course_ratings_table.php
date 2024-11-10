@@ -16,6 +16,7 @@ return new class extends Migration
 			$table->foreignId('user_id')->references('id')->on('users')->constrained()->onDelete('cascade');
 			$table->foreignId('course_id')->references('id')->on('courses')->constrained()->onDelete('cascade');
 			$table->smallInteger('rating')->default(0);
+			$table->timestamps();
 		});
 	}
 

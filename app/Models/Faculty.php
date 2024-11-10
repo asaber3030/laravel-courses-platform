@@ -3,18 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Carbon;
 
-class LectureItem extends Model
+class Faculty extends Model
 {
-	protected $table = 'lecture_items';
-	protected $fillable = ['lecture_id', 'title', 'file', 'file_type', 'file_size', 'video_duration', 'order', 'is_active'];
+	protected $fillable = ['name', 'description'];
 
-	public function lecture()
+	public function users()
 	{
-		return $this->belongsTo(CourseLecture::class, 'lecture_id', 'id');
+		return $this->hasMany(User::class, 'faculty_id', 'id');
 	}
 	public function createdAt(): Attribute
 	{

@@ -18,12 +18,9 @@ class IsTeacherAuthenticated
 	 */
 	public function handle(Request $request, Closure $next): Response
 	{
-		// Check if the user is authenticated with the 'teacher' guard
 		if (!Auth::guard('teacher')->check()) {
-			// Redirect to the teacher login page if not authenticated
-			return redirect()->route('teacher.login');
+			return redirect()->route('login');
 		}
-
 		return $next($request);
 	}
 }
