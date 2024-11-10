@@ -37,9 +37,7 @@ const CourseActionsDropdown = ({ course, children, asChild = true }: Props) => {
         </DropdownMenuItem>
 
         <DropdownMenuItem
-          onClick={() =>
-            router.visit(route("courses.lectures.view", course.id))
-          }
+          onClick={() => router.visit(route("courses.lectures", course.id))}
         >
           المحاضرات
         </DropdownMenuItem>

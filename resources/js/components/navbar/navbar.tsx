@@ -31,12 +31,6 @@ export const AppNavbar = () => {
                 الكورسات
               </NavLink>
             </li>
-
-            <li>
-              <NavLink href={""} active={false}>
-                الاشتراكات
-              </NavLink>
-            </li>
           </ul>
         </div>
 

@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
 
 class Faculty extends Model
 {
-	protected $fillable = ['name', 'description'];
+	protected $fillable = ['name', 'city'];
 
 	public function users()
 	{

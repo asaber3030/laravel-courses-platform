@@ -7,11 +7,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { format } from "date-fns";
 import { Separator } from "../ui/separator";
 import { Link } from "@inertiajs/react";
 import { Button } from "../ui/button";
 import { Cog, Eye, MoreHorizontal, Trash } from "lucide-react";
+
+import moment from "moment";
 
 import CourseActionsDropdown from "./course-actions-dropdown";
 import DeleteCourseModal from "./delete-course-modal";
@@ -38,11 +39,15 @@ export default function CourseCard({ course }: { course: Course }) {
         <div className="flex flex-col gap-2">
           <p className="text-gray-600 flex justify-between">
             اخر تعديل
-            <span>{format(course.updated_at, "yyyy-mm-dd")}</span>
+            <span>
+              {course.updated_at ? moment(course.updated_at).fromNow() : "N/A"}
+            </span>
           </p>
           <p className="text-gray-600 flex justify-between">
             تم الانشاء في
-            <span>{format(course.created_at, "yyyy-mm-dd")}</span>
+            <span>
+              {course.created_at ? moment(course.created_at).fromNow() : "N/A"}
+            </span>
           </p>
         </div>
       </CardContent>
