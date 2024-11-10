@@ -5,8 +5,6 @@ import { useTeacher } from "@/hooks/useTeacher";
 import { UserDropdown } from "./user-dropdown";
 
 export const AppNavbar = () => {
-  const teacher = useTeacher();
-
   return (
     <div className="bg-white border-b">
       <nav className="py-6 flex justify-between items-center mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -29,6 +27,15 @@ export const AppNavbar = () => {
                 active={route().current("courses.list")}
               >
                 الكورسات
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink
+                href={route("courses.list")}
+                active={route().current("courses.list")}
+              >
+                test
               </NavLink>
             </li>
           </ul>
