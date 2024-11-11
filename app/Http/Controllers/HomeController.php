@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+	public function home()
+	{
+		return inertia('home');
+	}
+
 	public function dashboard_index()
 	{
 		$teacher_id = auth('teacher')->id();

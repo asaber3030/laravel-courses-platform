@@ -37,6 +37,33 @@ export const UserDropdown = () => {
         >
           حسابي
         </DropdownMenuItem>
+
+        <DropdownMenuItem
+          onClick={() => router.get(route("dashboard"))}
+          className={cn(
+            route().current("profile.edit") &&
+              "bg-gray-100 text-primary hover:text-primary"
+          )}
+        >
+          الصفحة الرئيسية
+        </DropdownMenuItem>
+
+        <DropdownMenuItem
+          onClick={() => router.get(route("courses.list"))}
+          className={cn(
+            route().current("profile.edit") &&
+              "bg-gray-100 text-primary hover:text-primary"
+          )}
+        >
+          الكورسات
+        </DropdownMenuItem>
+
+        <DropdownMenuItem
+          onClick={() => router.post(route("logout"))}
+          className="text-red-500 hover:text-red-700"
+        >
+          تسجيل الخروج
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

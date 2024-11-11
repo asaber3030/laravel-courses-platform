@@ -20,7 +20,7 @@ export default function Dashboard() {
       <Head title="الصفحة الرئيسية" />
 
       <DefaultWrapper>
-        <section className="grid grid-cols-4 gap-4">
+        <section className="grid xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4">
           <div className="flex gap-4 bg-white p-4 rounded-md shadow-sm border">
             <ShieldCheck className="size-6 text-primary" />
             <div className="">
