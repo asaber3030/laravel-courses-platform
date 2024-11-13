@@ -83,6 +83,13 @@ class AuthController extends Controller
     $email = $request->input('email');
     $code = mt_rand(100000, 999999);
 
+    $find_is_verified = User::where('email', $email)->first();
+    if (isset($find_is_verified->email_verified_at)) {
+      return response()->json([
+        'message' => 'الحساب مفعل بالفعل',
+      ]);
+    }
+
     EmailVerificationToken::where('email', $email)->forceDelete();
     EmailVerificationToken::create([
       'email' => $email,
