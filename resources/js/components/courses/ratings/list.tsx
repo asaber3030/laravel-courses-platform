@@ -1,5 +1,6 @@
-import { FullCourseRating } from "@/types";
 import RatingCard from "./rating";
+
+import { FullCourseRating } from "@/types";
 import { EmptyState } from "@/components/common/empty-state";
 
 type Props = {

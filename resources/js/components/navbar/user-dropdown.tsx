@@ -41,7 +41,7 @@ export const UserDropdown = () => {
         <DropdownMenuItem
           onClick={() => router.get(route("dashboard"))}
           className={cn(
-            route().current("profile.edit") &&
+            route().current("dashboard") &&
               "bg-gray-100 text-primary hover:text-primary"
           )}
         >
@@ -51,7 +51,7 @@ export const UserDropdown = () => {
         <DropdownMenuItem
           onClick={() => router.get(route("courses.list"))}
           className={cn(
-            route().current("profile.edit") &&
+            route().current("courses.list") &&
               "bg-gray-100 text-primary hover:text-primary"
           )}
         >

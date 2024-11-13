@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Models\User;
+use App\Mail\ResetPasswordMail;
 
 class PasswordController extends Controller
 {
@@ -26,11 +27,7 @@ class PasswordController extends Controller
       'token' => Hash::make($code)
     ]);
 
-    Mail::send('emails.reset-password', ['code' => $code], function ($message) use ($request, $email) {
-      $message->from('abdulrahmansaber120@gmail.com');
-      $message->subject('Reset Code - Courses Platform');
-      $message->to($email);
-    });
+    Mail::to($email)->send(new ResetPasswordMail($code));
 
     return response()->json([
       'message' => 'تم إرسال رمز إعادة تعيين كلمة المرور إلى بريدك الإلكتروني'

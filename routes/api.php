@@ -10,10 +10,14 @@ Route::as('api.')->prefix('v1/')->group(function () {
   Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login')->name('login');
     Route::post('register', 'register')->name('register');
+
+    Route::post('email/send-code', 'send_verification_code')->name('email.send-code');
+    Route::post('email/code-valid', 'is_verification_code_valid')->name('email.code-valid');
+
     Route::middleware('auth:sanctum')->group(function () {
       Route::get('me', 'me');
-      Route::patch('update/profile', 'updateProfile');
-      Route::patch('update/password', 'updatePassword');
+      Route::patch('update/profile', 'update_profile');
+      Route::patch('update/password', 'update_password');
     });
   });
 

@@ -7,11 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\ResetPasswordMail;
+use App\Models\EmailVerificationToken;
+use App\Mail\VerifyAccountMail;
 
 class AuthController extends Controller
 {
@@ -58,17 +56,71 @@ class AuthController extends Controller
     ]);
 
     $token = $user->createToken('mobile-app-token')->plainTextToken;
+    $email = $request->input('email');
+    $code = mt_rand(100000, 999999);
+
+    Mail::to($email)->send(new VerifyAccountMail($code));
+
+    EmailVerificationToken::create([
+      'email' => $user->email,
+      'token' => Hash::make($code),
+    ]);
 
     return response()->json([
-      'message' => 'تم انشاء المستخدم بنجاح',
+      'message' => 'تم انشاء المستخدم بنجاح. تم ارسال رمز التحقق الى بريدك الالكتروني',
       'data' => [
         'user' => $user,
         'token' => $token,
       ]
     ], 201);
   }
+  public function send_verification_code(Request $request)
+  {
+    $request->validate([
+      'email' => 'required|email|exists:users,email'
+    ]);
 
-  public function updateProfile(Request $request)
+    $email = $request->input('email');
+    $code = mt_rand(100000, 999999);
+
+    EmailVerificationToken::where('email', $email)->forceDelete();
+    EmailVerificationToken::create([
+      'email' => $email,
+      'token' => Hash::make($code)
+    ]);
+
+    Mail::to($email)->send(new VerifyAccountMail($code));
+
+    return response()->json([
+      'message' => 'تم ارسال رمز التحقق الى بريدك الالكتروني',
+    ]);
+  }
+
+  public function is_verification_code_valid(Request $request)
+  {
+    $request->validate([
+      'email' => 'required|email|exists:users,email',
+      'code' => 'required|integer',
+    ]);
+
+    $email = $request->input('email');
+    $code = $request->input('code');
+
+    $token = EmailVerificationToken::where('email', $email)->first();
+
+    if (!$token) {
+      return response()->json(['message' => 'لا يوجد'], 400);
+    }
+
+    $is_valid = Hash::check($code, $token->token);
+    if ($is_valid) {
+      User::where('email', $email)->update(['email_verified_at' => now()]);
+      EmailVerificationToken::where('email', $email)->forceDelete();
+      return response()->json(['message' => 'تم تفعيل الحساب بنجاح'], 200);
+    }
+    return response()->json(['message' => 'خطأ. الرقم المدخل غير صحيح. او ربما حدث خطأ ما.'], 200);
+  }
+  public function update_profile(Request $request)
   {
 
     /** @var User $user **/
@@ -89,7 +141,7 @@ class AuthController extends Controller
     ]);
   }
 
-  public function updatePassword(Request $request)
+  public function update_password(Request $request)
   {
     $request->validate([
       'current_password' => 'required',
@@ -110,48 +162,6 @@ class AuthController extends Controller
     return response()->json(['message' => 'Password updated successfully']);
   }
 
-  public function sendResetLink(Request $request)
-  {
-    // Validate email input
-    $request->validate([
-      'email' => 'required|email|exists:users,email',
-    ]);
-
-    // Send the reset password link to the email
-    $status = Password::sendResetLink(
-      $request->only('email')
-    );
-
-    if ($status === Password::RESET_LINK_SENT) {
-      return response()->json(['message' => 'Password reset link sent to your email.'], 200);
-    }
-
-    return response()->json(['message' => 'Failed to send reset link.'], 400);
-  }
-
-  public function resetPassword(Request $request)
-  {
-    $request->validate([
-      'token' => 'required',
-      'email' => 'required|email',
-      'password' => 'required|string|min:8|confirmed',
-    ]);
-
-    $status = Password::reset(
-      $request->only('email', 'password', 'password_confirmation', 'token'),
-      function ($user) use ($request) {
-        $user->forceFill([
-          'password' => Hash::make($request->password),
-        ])->save();
-      }
-    );
-
-    if ($status === Password::PASSWORD_RESET) {
-      return response()->json(['message' => 'Password successfully reset.'], 200);
-    }
-
-    return response()->json(['message' => 'Failed to reset password.'], 400);
-  }
   public function me(Request $request)
   {
     return response()->json([
