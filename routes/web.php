@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LectureController;
 use App\Http\Controllers\LectureItemController;
@@ -9,6 +10,8 @@ use App\Http\Controllers\SubscriptionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
+
+Route::get('files/{file}', [FileController::class, 'serve_file'])->name('files.view');
 
 Route::middleware('teacher.auth')->group(function () {
 

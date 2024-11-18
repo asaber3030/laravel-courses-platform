@@ -12,8 +12,6 @@ use App\Models\CourseRating;
 
 class CourseController extends Controller
 {
-	// Comment
-
 	public function index(Request $request)
 	{
 
@@ -108,11 +106,12 @@ class CourseController extends Controller
 		}
 
 		auth('teacher')->user();
+
 		Course::create([
 			'title' => $request->input('title'),
 			'price' => $request->input('price'),
 			'description' => $request->input('description'),
-			'image' => $file_name ? $file_name : '/maths.jpg',
+			'image' => $file_name ? config('app.url') . $file_name : config('app.url') . '/maths.jpg',
 			'teacher_id' => auth('teacher')->user()->getAuthIdentifier()
 		]);
 
@@ -148,7 +147,7 @@ class CourseController extends Controller
 			'title' => $request->input('title'),
 			'price' => $request->input('price'),
 			'description' => $request->input('description'),
-			'image' => $file_name ? $file_name : $course->image,
+			'image' => $file_name ? config('app.url') . $file_name : $course->image,
 			'teacher_id' => auth('teacher')->user()->getAuthIdentifier()
 		]);
 

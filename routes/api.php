@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\PasswordController;
 use Illuminate\Support\Facades\Route;
 
 Route::as('api.')->prefix('v1/')->group(function () {
+
   Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login')->name('login');
     Route::post('register', 'register')->name('register');

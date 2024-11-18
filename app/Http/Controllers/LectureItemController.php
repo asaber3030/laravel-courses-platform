@@ -29,10 +29,11 @@ class LectureItemController extends Controller
 		$file_size = round($file->getSize() / 1048576, 2);
 		$file_type = $file->getClientOriginalExtension() == 'pdf' ? 'pdf' : 'video';
 		$file_name = '/uploads/lectures_items/' . $unique_file_name;
+		$file->move('uploads/lectures_items', $unique_file_name);
 
 		LectureItem::create([
 			'title' => $request->input('title'),
-			'file' => $file_name,
+			'file' => config('app.url') . $file_name,
 			'order' => $request->input('order'),
 			'lecture_id' => $lecture->id,
 			'file_size' => $file_size,
@@ -76,7 +77,7 @@ class LectureItemController extends Controller
 		LectureItem::where('id', $item->id)->update([
 			'title' => $request->input('title'),
 			'order' => $request->input('order'),
-			'file' => $file_name ? $file_name : $item->file,
+			'file' => $file_name ? config('app.url') . $file_name : $item->file,
 			'lecture_id' => $lecture->id,
 			'file_size' => $file_size ? $file_size : $item->file_size,
 			'file_type' => $file_type ? $file_type : $item->file_type,
