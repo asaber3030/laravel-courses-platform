@@ -14,7 +14,12 @@ class CourseController extends Controller
 	public function subscribed_courses()
 	{
 		$user = Auth::user();
-		$courses = CourseSubscription::where('user_id', $user->getAuthIdentifier())->with('course')->simplePaginate();
+		$courses = CourseSubscription::where('user_id', $user->getAuthIdentifier())
+			->whereHas('course', function ($q) {
+				$q->whereNull('deleted_at');
+			})
+			->with('course')
+			->simplePaginate();
 		return response()->json([
 			'message' => 'Subscribed Courses',
 			'data' => $courses

@@ -9,9 +9,12 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SubscriptionController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'home'])->name('home');
 
-Route::get('files/{file}', [FileController::class, 'serve_file'])->name('files.view');
+Route::get('/', [HomeController::class, 'home'])->name('home');
+Route::get('test-upload', [FileController::class, 'test_upload'])->name('files.view');
+
+Route::get('uploads/view', [FileController::class, 'uploads_view'])->name('files.view.uploads');
+Route::post('uploads/view', [FileController::class, 'handle_upload'])->name('files.view.uploads.ps');
 
 Route::middleware('teacher.auth')->group(function () {
 

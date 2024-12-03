@@ -21,6 +21,8 @@
 
 <body class="font-sans antialiased">
   @inertia
+
+  <script src="{{ asset('js/resumable.js') }}"></script>
 </body>
 
 </html>
