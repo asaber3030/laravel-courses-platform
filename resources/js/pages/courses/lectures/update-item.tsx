@@ -14,7 +14,7 @@ import { Edit } from "lucide-react";
 export default function ViewLecturePage() {
   const { lecture, item } = usePage<UpdateLectureItemPageProps>().props;
 
-  const { data, setData, patch, errors } = useForm({
+  const { data, setData, post, errors } = useForm({
     title: item.title,
     order: item.order,
     file: null,
@@ -40,7 +40,7 @@ export default function ViewLecturePage() {
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    patch(
+    post(
       route("courses.lectures.items.update.action", [
         lecture.course_id,
         lecture.id,
@@ -57,7 +57,7 @@ export default function ViewLecturePage() {
 
   return (
     <Authenticated>
-      <Head title="Create Item" />
+      <Head title="Update Item" />
       <DefaultWrapper>
         <PageTitle title={pageTitle} className="mb-4" />
         <form onSubmit={onSubmit} className="space-y-4">

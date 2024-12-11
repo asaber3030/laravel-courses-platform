@@ -62,7 +62,7 @@ export default function CourseCard({ course }: { course: Course }) {
       </CardContent>
       <Separator className="my-2" />
 
-      <CardFooter className="grid xl:grid-cols-4 md:grid-cols-2 grid-cols-2 gap-2">
+      <CardFooter className="grid xl:grid-cols-3 md:grid-cols-3 grid-cols-3 gap-2">
         <Link href={route("courses.view", [course.id])}>
           <Button icon={Eye} variant="outline" className="w-full">
             عرض
@@ -76,10 +76,6 @@ export default function CourseCard({ course }: { course: Course }) {
         </Link>
 
         <DeleteCourseModal courseId={course.id} />
-
-        <CourseActionsDropdown course={course}>
-          <Button variant="outline" className="w-full" icon={MoreHorizontal} />
-        </CourseActionsDropdown>
       </CardFooter>
     </Card>
   );

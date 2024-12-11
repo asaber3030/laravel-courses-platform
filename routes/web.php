@@ -61,7 +61,7 @@ Route::middleware('teacher.auth')->group(function () {
       Route::post('/{course}/lectures/{lecture}/items/create', 'create_item_action')->name('lectures.items.create.action');
 
       Route::get('/{course}/lectures/{lecture}/items/{item}/update', 'update_item_view')->name('lectures.items.update.view');
-      Route::patch('/{course}/lectures/{lecture}/items/{item}/update', 'update_item_action')->name('lectures.items.update.action');
+      Route::post('/{course}/lectures/{lecture}/items/{item}/update', 'update_item_action')->name('lectures.items.update.action');
 
       Route::post('/{course}/lectures/{lecture}/items/{item}/delete', 'delete_item_action')->name('lectures.items.delete.action');
     });

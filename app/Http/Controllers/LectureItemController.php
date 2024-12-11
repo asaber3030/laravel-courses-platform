@@ -25,7 +25,7 @@ class LectureItemController extends Controller
 		]);
 
 		$file = $request->file('file');
-		$unique_file_name =  'omar_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+		$unique_file_name =  time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
 		$file_size = round($file->getSize() / 1048576, 2);
 		$file_type = $file->getClientOriginalExtension() == 'pdf' ? 'pdf' : 'video';
 		$file_name = '/uploads/lectures_items/' . $unique_file_name;
@@ -57,9 +57,10 @@ class LectureItemController extends Controller
 	public function update_item_action(Request $request, Course $course, CourseLecture $lecture, LectureItem $item)
 	{
 		$request->validate([
-			'title' => 'nullable|string|max:255|min:3',
+			'title' => 'required|string|max:255|min:3',
 			'file' => 'nullable|mimes:pdf,mp4,webm,ogg|max:512000',
-			'order' => 'nullable|numeric|gt:0'
+			'file.*' => 'nullable|mimes:pdf,mp4,webm,ogg|max:512000',
+			'order' => 'required|numeric|gt:0'
 		]);
 
 		global $file_name;
@@ -68,7 +69,7 @@ class LectureItemController extends Controller
 
 		if ($request->hasFile('file')) {
 			$file = $request->file('file');
-			$unique_file_name =  'omar_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+			$unique_file_name =  time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
 			$file_size = round($file->getSize() / 1048576, 2);
 			$file_type = $file->getClientOriginalExtension() == 'pdf' ? 'pdf' : 'video';
 			$file_name = '/uploads/lectures_items/' . $unique_file_name;
@@ -85,7 +86,7 @@ class LectureItemController extends Controller
 			'is_active' => true
 		]);
 
-		session()->flash('message', 'تم اضافة العنصر بنجاح');
+		session()->flash('message', 'تم تعديل العنصر بنجاح');
 		return to_route('courses.lectures.view', ['course' => $course->id, 'lecture' => $lecture->id]);
 	}
 

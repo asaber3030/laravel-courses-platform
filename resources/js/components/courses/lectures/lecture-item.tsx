@@ -23,7 +23,7 @@ export const SingleLectureItem = ({ courseId, item, index }: Props) => {
   };
 
   return (
-    <div className="flex gap-2 items-center justify-between">
+    <div className="flex flex-col xl:flex-row gap-2 xl:items-center items-end justify-between border bg-white mb-2 px-4 rounded-md py-1">
       <section className="flex items-center gap-8 w-full">
         <Link className="flex gap-2 items-center hover:underline" href={""}>
           <p>{index + 1}.</p>

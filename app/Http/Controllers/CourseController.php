@@ -148,7 +148,6 @@ class CourseController extends Controller
 			'price' => $request->input('price'),
 			'description' => $request->input('description'),
 			'image' => $file_name ? config('app.url') . $file_name : $course->image,
-			'teacher_id' => auth('teacher')->user()->getAuthIdentifier()
 		]);
 
 		session()->flash('message', 'تم تحديث الكورس بنجاح');

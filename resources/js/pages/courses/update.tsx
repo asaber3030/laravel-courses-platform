@@ -62,7 +62,7 @@ export default function CreateCoursePage() {
       <DefaultWrapper>
         <PageTitle title={pageTitle} className="mb-4" />
         <section className="grid xl:grid-cols-6 gap-4">
-          <form onSubmit={onSubmit} className="space-y-4 col-span-4">
+          <form onSubmit={onSubmit} className="space-y-4 xl:col-span-4">
             <div>
               <div
                 className={cn(
@@ -136,7 +136,7 @@ export default function CreateCoursePage() {
               <GoBack />
             </div>
           </form>
-          <section className="col-span-2">
+          <section className="xl:col-span-2">
             <CourseCard course={course} />
           </section>
         </section>

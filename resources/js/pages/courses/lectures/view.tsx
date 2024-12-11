@@ -29,7 +29,10 @@ export default function ViewLecturePage() {
     <Authenticated>
       <Head title="Courses" />
       <DefaultWrapper>
-        <PageTitle title={pageTitle}>
+        <PageTitle
+          title={pageTitle}
+          className="flex-col items-center justify-center xl:justify-between xl:flex-row gap-4"
+        >
           <UpdateLectureModal lecture={lecture} />
           <DeleteLectureModal lecture={lecture} />
           <LinkBtn href={createItemURL} variant="blue" icon={Plus}>
